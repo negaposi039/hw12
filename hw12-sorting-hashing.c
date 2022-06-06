@@ -125,10 +125,10 @@ int initialize(int** a)
 
 	/* array가 NULL인 경우 메모리 할당 */
 	if(*a == NULL) {
-		temp = (int*)malloc(sizeof(int) * MAX_ARRAY_SIZE);
+		temp = (int*)malloc(sizeof(int) * MAX_ARRAY_SIZE); // 배열 사이즈 만큼 malloc으로 할당
 		*a = temp;  /* 할당된 메모리의 주소를 복사 --> main에서 배열을 control 할수 있도록 함*/
 	} else
-		temp = *a;
+		temp = *a; // *a가 NULL이 아니면 *a값을 temp에 저장
 
 	/* 랜덤값을 배열의 값으로 저장 */
 	for(int i = 0; i < MAX_ARRAY_SIZE; i++)
@@ -139,21 +139,21 @@ int initialize(int** a)
 
 int freeArray(int *a)
 {
-	if(a != NULL)
-		free(a);
+	if(a != NULL) // a가 NULL이 아니면
+		free(a); // free()로 메모리 해제
 	return 0;
 }
 
 void printArray(int *a)
 {
-	if (a == NULL) {
+	if (a == NULL) { // a가 NULL이면 에러메시지
 		printf("nothing to print.\n");
 		return;
 	}
-	for(int i = 0; i < MAX_ARRAY_SIZE; i++)
+	for(int i = 0; i < MAX_ARRAY_SIZE; i++) // 배열 사이즈까지 인덱스 번호 출력
 		printf("a[%02d] ", i);
 	printf("\n");
-	for(int i = 0; i < MAX_ARRAY_SIZE; i++)
+	for(int i = 0; i < MAX_ARRAY_SIZE; i++) // 배열 사이즈까지 원소 출력
 		printf("%5d ", a[i]);
 	printf("\n");
 }
@@ -161,33 +161,34 @@ void printArray(int *a)
 
 int selectionSort(int *a)
 {
-	int min;
-	int minindex;
+	int min; // 최솟값
+	int minindex; // 최솟값의 인덱스
 	int i, j;
 
 	printf("Selection Sort: \n");
 	printf("----------------------------------------------------------------\n");
 
-	printArray(a);
+	printArray(a); // 배열 원소 출력
 
 	for (i = 0; i < MAX_ARRAY_SIZE; i++)
 	{
-		minindex = i;
-		min = a[i];
-		for(j = i+1; j < MAX_ARRAY_SIZE; j++)
+		minindex = i; // 인덱스 초기값 1
+		min = a[i]; // 첫번째 원소를 최솟값의 초기값
+		for(j = i+1; j < MAX_ARRAY_SIZE; j++) // 반복문으로 최솟값과 최솟값 인덱스 교체
 		{
-			if (min > a[j])
+			if (min > a[j]) // a[j]가 min 보다 작으면
 			{
-				min = a[j];
-				minindex = j;
+				min = a[j]; // a[j]를 min으로 설정
+
+				minindex = j; // 인덱스를 j로 설정
 			}
 		}
-		a[minindex] = a[i];
-		a[i] = min;
+		a[minindex] = a[i]; // a[minindex]에 a[i] 저장
+		a[i] = min; // a[i]엔 최솟값 저장
 	}
 
 	printf("----------------------------------------------------------------\n");
-	printArray(a);
+	printArray(a); // 배열 출력
 	return 0;
 }
 
@@ -198,18 +199,18 @@ int insertionSort(int *a)
 	printf("Insertion Sort: \n");
 	printf("----------------------------------------------------------------\n");
 
-	printArray(a);
+	printArray(a); // 배열 출력
 
 	for(i = 1; i < MAX_ARRAY_SIZE; i++)
 	{
-		t = a[i];
-		j = i;
-		while (a[j-1] > t && j > 0)
+		t = a[i]; // a[i] (초기값 1) 원소를 t에 대입
+		j = i; // i 값 j에 대입
+		while (a[j-1] > t && j > 0) //a[j-1]이 t보다 크고 j가 0이면 반복
 		{
-			a[j] = a[j-1];
+			a[j] = a[j-1]; // a[j-1] 원소를 a[j]에 대입하고 j 감소하여 인덱스를 줄이며 위치 찾아 삽입
 			j--;
 		}
-		a[j] = t;
+		a[j] = t; // t를 a[j]에 대입
 	}
 
 	printf("----------------------------------------------------------------\n");
@@ -225,13 +226,13 @@ int bubbleSort(int *a)
 	printf("Bubble Sort: \n");
 	printf("----------------------------------------------------------------\n");
 
-	printArray(a);
+	printArray(a); // 배열 출력
 
-	for(i = 0; i < MAX_ARRAY_SIZE; i++)
+	for(i = 0; i < MAX_ARRAY_SIZE; i++) // i 배열 사이즈까지 반복
 	{
-		for (j = 0; j < MAX_ARRAY_SIZE; j++)
+		for (j = 0; j < MAX_ARRAY_SIZE; j++) // j 배열 사이즈까지 반복
 		{
-			if (a[j-1] > a[j])
+			if (a[j-1] > a[j]) // a[j-1] 원소가 a[j]원소보다 크면 t를 이용하여 교체
 			{
 				t = a[j-1];
 				a[j-1] = a[j];
@@ -241,9 +242,9 @@ int bubbleSort(int *a)
 	}
 
 	printf("----------------------------------------------------------------\n");
-	printArray(a);
+	printArray(a); // 정렬 후 원소 출력
 
-	return 0;
+	return 0; // 종료
 }
 
 int shellSort(int *a)
