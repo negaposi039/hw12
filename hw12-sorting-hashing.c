@@ -254,27 +254,27 @@ int shellSort(int *a)
 	printf("Shell Sort: \n");
 	printf("----------------------------------------------------------------\n");
 
-	printArray(a);
+	printArray(a); // 배열 원소 출력
 
-	for (h = MAX_ARRAY_SIZE/2; h > 0; h /= 2)
+	for (h = MAX_ARRAY_SIZE/2; h > 0; h /= 2) // 배열 사이즈/2 부터 h>0 까지 h를 2로 나누며 반복
 	{
-		for (i = 0; i < h; i++)
+		for (i = 0; i < h; i++) // i가 h보다 작아질 때 까지 반복
 		{
-			for(j = i + h; j < MAX_ARRAY_SIZE; j += h)
+			for(j = i + h; j < MAX_ARRAY_SIZE; j += h) // j는 i+h 부터 j가 배열 사이즈보다 작아질 때 까지 j=j+h를 하며 반복
 			{
-				v = a[j];
-				k = j;
-				while (k > h-1 && a[k-h] > v)
+				v = a[j]; // a[j] 원소 v에 저장
+				k = j; // j를 k에 저장
+				while (k > h-1 && a[k-h] > v) // k가 h-1보다 크고, a[k-h]의 원소가 v보다 크면 반복
 				{
-					a[k] = a[k-h];
-					k -= h;
+					a[k] = a[k-h]; // a[k-h]의 원소를 a[k]에 저장
+					k -= h; // k=k-h
 				}
-				a[k] = v;
+				a[k] = v; // v를 a[k]에 저장
 			}
 		}
 	}
 	printf("----------------------------------------------------------------\n");
-	printArray(a);
+	printArray(a); // 정렬 후 원소 출력
 
 	return 0;
 }
@@ -284,28 +284,28 @@ int quickSort(int *a, int n)
 	int v, t;
 	int i, j;
 
-	if (n > 1)
+	if (n > 1) // n이 1보다 크면
 	{
-		v = a[n-1];
-		i = -1;
-		j = n - 1;
+		v = a[n-1]; // a[n-1] 원소 v에 저장
+		i = -1; // i 초기값 -1
+		j = n - 1; // j에 n-1 저장
 
 		while(1)
 		{
-			while(a[++i] < v);
-			while(a[--j] > v);
+			while(a[++i] < v); // i 증가시키며 a[++i]가 v보다 작으면 반복하여 왼쪽정렬에서 기준보다 큰 수를 찾음
+			while(a[--j] > v);// j 감소시키며 a[++i]가 v보다 작으면 반복하여 오른쪽정렬에서 기준보다 작은 수를 찾음
 
-			if (i >= j) break;
-			t = a[i];
+			if (i >= j) break; // i가 j보다 크거나 같으면 탈출
+			t = a[i]; // t 이용하여 a[i]와 a[j] 교체
 			a[i] = a[j];
 			a[j] = t;
 		}
-		t = a[i];
+		t = a[i]; // t 이용하여 a[i]와 a[n-1] 교체
 		a[i] = a[n-1];
 		a[n-1] = t;
 
-		quickSort(a, i);
-		quickSort(a+i+1, n-i-1);
+		quickSort(a, i); // a부터 i까지 앞쪽 정렬
+		quickSort(a+i+1, n-i-1); // a+i+1부터 n-i-1까지 뒷쪽 정렬
 	}
 
 
@@ -313,54 +313,54 @@ int quickSort(int *a, int n)
 }
 
 int hashCode(int key) {
-   return key % MAX_HASH_TABLE_SIZE;
+   return key % MAX_HASH_TABLE_SIZE; //key 나누기 최대 해쉬테이블 사이즈의 나머지 리턴
 }
 
 int hashing(int *a, int **ht)
 {
-	int *hashtable = NULL;
+	int *hashtable = NULL; // 해쉬테이블 변수 NULL 초기화
 
 	/* hash table이 NULL인 경우 메모리 할당 */
 	if(*ht == NULL) {
-		hashtable = (int*)malloc(sizeof(int) * MAX_ARRAY_SIZE);
+		hashtable = (int*)malloc(sizeof(int) * MAX_ARRAY_SIZE); // 배열 사이즈만큼 malloc으로 메모리 할당
 		*ht = hashtable;  /* 할당된 메모리의 주소를 복사 --> main에서 배열을 control 할수 있도록 함*/
 	} else {
 		hashtable = *ht;	/* hash table이 NULL이 아닌경우, table 재활용, reset to -1 */
 	}
 
-	for(int i = 0; i < MAX_HASH_TABLE_SIZE; i++)
-		hashtable[i] = -1;
+	for(int i = 0; i < MAX_HASH_TABLE_SIZE; i++) // 최대 해쉬테이블 사이즈까지 반복
+		hashtable[i] = -1; // 배열 원소들에 -1 저장
 
 	/*
 	for(int i = 0; i < MAX_HASH_TABLE_SIZE; i++)
 		printf("hashtable[%d] = %d\n", i, hashtable[i]);
 	*/
 
-	int key = -1;
+	int key = -1; // 값 -1로 초기화
 	int hashcode = -1;
 	int index = -1;
-	for (int i = 0; i < MAX_ARRAY_SIZE; i++)
+	for (int i = 0; i < MAX_ARRAY_SIZE; i++) // 배열 사이즈까지 반복
 	{
-		key = a[i];
-		hashcode = hashCode(key);
+		key = a[i]; // a[i]를 key에 대입
+		hashcode = hashCode(key); // hashcode 함수 리턴값을 변수에 저장
 		/*
 		printf("key = %d, hashcode = %d, hashtable[%d]=%d\n", key, hashcode, hashcode, hashtable[hashcode]);
 		*/
-		if (hashtable[hashcode] == -1)
+		if (hashtable[hashcode] == -1) // 원소가 초기값 -1이면
 		{
-			hashtable[hashcode] = key;
+			hashtable[hashcode] = key; // key값을 저장
 		} else 	{
 
-			index = hashcode;
+			index = hashcode; // 인덱스에 해쉬코드 저장
 
-			while(hashtable[index] != -1)
+			while(hashtable[index] != -1) // -1이 아니면 반복
 			{
-				index = (++index) % MAX_HASH_TABLE_SIZE;
+				index = (++index) % MAX_HASH_TABLE_SIZE; // (++index) % MAX_HASH_TABLE_SIZE 인덱스에 저장
 				/*
 				printf("index = %d\n", index);
 				*/
 			}
-			hashtable[index] = key;
+			hashtable[index] = key; //hashtable[index]에 key값 대입
 		}
 	}
 
@@ -369,16 +369,16 @@ int hashing(int *a, int **ht)
 
 int search(int *ht, int key)
 {
-	int index = hashCode(key);
+	int index = hashCode(key); // hashcode 함수 리턴값 인덱스에 저장
 
-	if(ht[index] == key)
-		return index;
+	if(ht[index] == key) // ht[index]가 key와 같으면
+		return index; // index 리턴
 
-	while(ht[++index] != key)
+	while(ht[++index] != key) // key와 다르면 반복
 	{
-		index = index % MAX_HASH_TABLE_SIZE;
+		index = index % MAX_HASH_TABLE_SIZE; // index 나누기 MAX_HASH_TABLE_SIZE의 나머지를 인덱스에 대입
 	}
-	return index;
+	return index; // 인덱스 리턴
 }
 
 
